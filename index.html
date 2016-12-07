@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html ng-app="addItemsApp">
+<head>
+    <title>Add items App</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300|Roboto" rel="stylesheet">
+    <script src="Libraries/angular.js"></script>
+    <script src="main.js"></script>
+    <script src="service.js"></script>
+</head>
+<body ng-controller="mainController">
+    <div class="container">
+        <div class="menu">
+            <span class="span-menu">Main</span>
+            <button class="button-menu">Overview</button>
+        </div>
+        <div class="content">
+            <div class="item-list">
+                <h1>Items</h1>
+                <input ng-model="newItem" class="input" type="text" placeholder="Type name here..." />
+                <button ng-click="addNewItem(newItem)" class="button-add">Add new</button>
+                <ul class="list-add">
+                    <li
+                        class="list-add-item"
+                        ng-click="selectItem(item,$index)"
+                        ng-class="{listAddLiActive:item == selectedItem}"
+                        ng-repeat="item in items track by $index">{{item.value}}
+                        <div class="badge">{{item.comments.length}}</div>
+                        <button ng-click="deleteItem($event, $index, item)" class="button-delete">Delete</button>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="comment-list" ng-if="selectedItem">
+                <h1>Comments #{{selectedCommentsIndex}}</h1>
+                <div class="comments">
+                    <ul class="list-add">
+                        <li
+                            class="list-add-comment"
+                            ng-repeat="comment in selectedItem.comments track by $index">
+                            <div class="avatar" ng-style="{'background-color':'{{comment.colorAvatar}}'}"></div>
+                            <span>{{comment.value}}</span>
+                        </li>
+                    </ul>
+                </div>
+                <form ng-submit="addNewComment(newComment)">
+                    <div class="avatar"></div>
+                    <input class="input-comment" ng-model="newComment.value" type="text" placeholder="Type and press 'Enter'..." />
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
